@@ -6,7 +6,7 @@
   >
     <div class="d-flex align-center">
       <HeaderLogo/>
-      <v-app-bar-title class="ml-2">Iron Pure Strats</v-app-bar-title>
+      <v-app-bar-title class="ml-2">Iron Pure Strats Beta</v-app-bar-title>
     </div>
 
     <v-spacer></v-spacer>

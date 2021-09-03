@@ -2,7 +2,6 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/REPO_NAME'
-    : '/'
+  publicPath: '/iron-pure-strats',
+  outputDir: "docs"
 }
