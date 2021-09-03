@@ -3,5 +3,4 @@ module.exports = {
     'vuetify'
   ],
   publicPath: '/iron-pure-strats',
-  outputDir: "docs"
 }
