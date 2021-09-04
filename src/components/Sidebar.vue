@@ -2,13 +2,14 @@
   <v-navigation-drawer
     permanent
     color='secondary'
+    class="pa-3"
   >
 
   <v-select
     label="Build"
     :items="builds"
     item-text="name"
-    v-model="build"
+    @change='setBuild'
     return-object
   >
   </v-select>
@@ -16,42 +17,42 @@
     label="Content Type"
     :items="contentTypes"
     item-text="name"
-    v-model="content"
+    @change="setContent"
     return-object
   ></v-select>
-  <v-checkbox
-    v-model="ultimate"
-    label="Ultimate?"
-  ></v-checkbox>
-  <v-checkbox
-    v-model="alts"
-    label="Alts?"
-  ></v-checkbox>
-
-  <hr>
 
   <v-select
     label="Skill"
     :items="skills"
     item-text="name"
-    v-model="selectedSkill"
-    :disabled="pvm"
+    @change='setSkill'
+    :disabled="!skilling"
     return-object
   ></v-select>
   <v-select
     label="Boss"
     :items="bosses"
     item-text="name"
-    v-model="selectedBoss"
-    :disabled="!pvm"
+    @change='setBoss'
+    :disabled="skilling"
     return-object
   ></v-select>
+
+  <v-checkbox
+    label="Ultimate?"
+    @change='setUltimate'
+  ></v-checkbox>
+  <v-checkbox
+    label="Alts?"
+    @change='setAlts'
+  ></v-checkbox>
 
   </v-navigation-drawer>
 </template>
 
 <script>
 import Vue from 'vue'
+import { mapActions, mapGetters } from 'vuex'
 
 import { BOSSES } from '@/enums/bosses.js'
 import { BUILDS } from '@/enums/build.js'
@@ -61,24 +62,34 @@ import { SKILLS } from '@/enums/skills.js'
 export default Vue.extend({
   data() {
     return {
-      build: BUILDS.PURE50,
       builds: Object.values(BUILDS),
-      content: CONTENT.PVM,
       contentTypes: Object.values(CONTENT),
       skills: Object.values(SKILLS),
-      bosses: Object.values(BOSSES),
-      ultimate: false,
-      alts: false,
-      selectedSkill: null,
-      selectedBoss: null
+      bosses: Object.values(BOSSES)
     }
   },
   computed: {
-    pvm() {
-      return this.content === CONTENT.PVM ? true : false
+    ...mapGetters([
+      'contentType',
+      'build',
+      'ultimate',
+      'alts',
+      'skill',
+      'boss'
+    ]),
+    skilling() {
+      return this.contentType === CONTENT.SKILLING ? true : false
     }
   },
   methods: {
+    ...mapActions([
+      'setContent',
+      'setBuild',
+      'setUltimate',
+      'setAlts',
+      'setSkill',
+      'setBoss'
+    ])
   },
 })
 </script>
