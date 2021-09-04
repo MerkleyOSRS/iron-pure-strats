@@ -7,8 +7,8 @@ export default new Vuex.Store({
   state: {
     contentType: null,
     build: null,
-    ultimate: null,
-    alts: null,
+    ultimate: false,
+    alts: false,
     skill: null,
     boss: null
   },

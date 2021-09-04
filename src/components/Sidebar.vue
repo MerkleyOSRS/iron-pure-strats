@@ -34,7 +34,7 @@
     :items="bosses"
     item-text="name"
     @change='setBoss'
-    :disabled="skilling"
+    :disabled="!pvm"
     return-object
   ></v-select>
 
@@ -79,6 +79,9 @@ export default Vue.extend({
     ]),
     skilling() {
       return this.contentType === CONTENT.SKILLING ? true : false
+    },
+    pvm() {
+      return this.contentType === CONTENT.PVM ? true : false
     }
   },
   methods: {

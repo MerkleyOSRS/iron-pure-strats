@@ -1,9 +1,49 @@
 <template>
-  <v-container class="ma-2">
-    <h1>{{ this.boss.name }}</h1>
-    <h2>{{ this.buildStrategy.strategy }}</h2>
-    <h4 v-if="this.ultimate">you are an ult</h4>
-    <h4 v-if="this.alts"> you are a cheating fuck</h4>
+  <v-container class="d-flex flex-row justify-space-between">
+    <v-card 
+      class="ma-2 d-flex flex-column align-center"
+      color='secondary'
+      elevation=0
+    >
+      <v-card-title>Relevant Pictures and Video</v-card-title>
+      <v-container class="d-flex flex-row justify-center">
+        <v-img
+          :src="this.buildStrategy.strategy.equipmentImage"
+          max-width=400
+          max-height=400
+        ></v-img>
+        <v-img
+          :src="this.buildStrategy.strategy.inventoryImage"
+          max-width=200
+          max-height=400
+        ></v-img>
+      </v-container>
+      <youtube :video-id="this.buildStrategy.strategy.videoLink" ref="youtube"></youtube>
+    </v-card>
+    <v-card
+      class="ma-2 d-flex flex-column align-center"
+      color='secondary'
+      elevation=0
+    >
+      <v-card-title>{{ this.boss.name }}</v-card-title>
+      <v-container class="d-flex flex-column">
+        <v-list dense color="secondary">
+          <v-list-item
+            v-for="(slot, key, index) in this.buildStrategy.strategy.equipment"
+            :key="index"
+          >
+          {{ key + ' : ' + parseEquipmentSlot(slot) }}
+          </v-list-item>
+        </v-list>
+      </v-container>
+      <v-container class="d-flex flex-column">
+        <v-text-area>
+          {{ this.buildStrategy.strategy.method }}
+          <v-spacer></v-spacer><v-spacer></v-spacer>
+          {{ this.buildStrategy.strategy.additionalNotes }}
+        </v-text-area>
+      </v-container>
+    </v-card>
   </v-container>
 </template>
 
@@ -28,12 +68,12 @@ export default Vue.extend({
       'alts'
     ]),
     strategies() {
-      return BOSS_STRATEGIES[this.boss.name.toUpperCase()].strategies
+      return BOSS_STRATEGIES[this.boss.alias].strategies
     },
     buildStrategy() {
       let strat = null
       this.strategies.forEach(strategy => {
-        if (strategy.build === this.build) {
+        if (strategy.build === this.build && strategy.alts === this.alts && strategy.ultimate === this.ultimate) {
           strat = strategy
         }
       })
@@ -41,6 +81,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    parseEquipmentSlot(slot) {
+      return slot.join(' > ')
+    }
   },
   components: {
   },
